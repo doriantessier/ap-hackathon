@@ -55,7 +55,9 @@ def generate_map(width, height):
             if grid[i][j] == '.':
                 prob = rd.random()
                 if prob < 0.10 :
+                    
                     p = rd.random()
+
                     if p < 0.5:
                         grid[i][j] = 'c'
                         dico['coin'].append([i,j])
@@ -69,7 +71,7 @@ def generate_map(width, height):
                         grid[i][j] = 'b'
                         dico['bouclier'].append([i,j])
 
-    return grid, nbrsalle, Lx
+    return grid, nbrsalle, dico, Lx
 
 
 
@@ -79,7 +81,6 @@ def print_map(grid):
         print("".join(grid[x][y] for x in range(len(grid))))
 
 if __name__ == "__main__":
-    width, height = 140, 20  # Taille de la carte
-    dungeon_map, nbrsalle, Lx = generate_map(width, height)
+    width, height = 150, 20  # Taille de la carte
+    dungeon_map, nbrsalle, Lx, dico = generate_map(width, height)
     print_map(dungeon_map)
-    print(nbrsalle, Lx)
