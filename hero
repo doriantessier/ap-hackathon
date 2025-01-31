@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class object:
+class Object:
     def __init__(self,s):
         self.symbole=s
 
@@ -9,32 +9,16 @@ class object:
         print(self.symbole)
 
 
-class hero(object):
+class Hero(object):
     def __init__(self):
         super().__init__("@")
-        self.position=np.array([])
-        self.life=16
-        self.gold=0
+        self.position=np.array([0,0])
+        self.score = 0
+        self.health = 10
+        self.position = (0,0)
+        self.weapon = None
+        self.shield = None
+        self.potion = 0
+        self.gold = 0
+        self.food = 0
 
-
-
-class graal(object):
-    def __init__(self):
-        super().__init__("G")
-        self.position=np.array([])
-
-
-class tile(object):
-    def __init__(self):
-        super().__init__(".")
-        self.position=np.array([])
-
-class coin(object):
-    def __init__(self):
-        super().__init__("O")
-        self.position=np.array([])
-
-class wall(object):
-    def __init__(self):
-        super().__init__("X")
-        self.position=np.array([])
