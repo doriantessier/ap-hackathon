@@ -56,28 +56,39 @@ def button_pressed(hero):
 
 
 def encounter(hero):
+    
     if hero.position in fruit_location:
         hero.food += 1
+        hero.score += 2
         fruit_location.remove(hero.position)
         print("You've found some food! You can use it by pressing 'e'.")
+    
     if hero.position in weapon_location:
         weapons.append("sword")
         if hero.weapon == None:
             hero.weapon = "sword"
+        hero.score += 5
         weapon_location.remove(hero.position)
         print("You've found a sword! You can now attack monsters.")
+    
     if hero.position in shield_location:
         hero.shield = "wooden shield"
         hero.health += 10
+        hero.score += 5
         shield_location.remove(hero.position)
         print("You've found a wooden shield! You can now protect yourself from monsters.")
+    
+    
     if hero.position in potion_location:
         hero.potion += 1
         potion_location.remove(hero.position)
+        hero.score += 5
         print("You've found a potion! You can now heal yourself.")    
+   
     if hero.position in gold_location:
         gold = np.random.randint(20,50)
         hero.gold += gold
+        hero.score += gold
         gold_location.remove(hero.position)
         print(f"You've found {gold} gold!")
 
@@ -89,6 +100,8 @@ def encounter(hero):
     if hero.position == [i_monster,j_monster] and hero.weapon == "sword":
         print("You've killed the monster!")
         hero.position = [i_monster_out,j_monster_out]
+        hero.score += 50
+    
     if hero.position == [i_monster,j_monster] and hero.weapon != "sword":
         print("You've been attacked by a monster! You lost 1 health point.")
         hero.health -= 1
