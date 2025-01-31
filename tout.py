@@ -25,16 +25,12 @@ SCORE_FILE_SCHEMA = schema.Schema([
 class Scores :
     """Contains instances of scores."""
 
-    def __init__(self, max_scores , scores ) :
+    def __init__(self) :
         """Define the scores."""
         self._max_scores=5
-        self._scores=sorted(scores, reverse = True)[:5]
+        self._scores=sorted([Score (score=0, name="Dodo"), Score(score=0, name="Arthur"), Score(score=0,name="Lenny"), Score(score=0, name="Victor")], reverse = True)[:5]
 
-    @classmethod
-    def default(cls, max_scores : int ) -> "Scores" :
-        """Classmethod."""
-        return cls(max_scores, [Score (score=0, name="Dodo"), Score(score=0, name="Arthur"), Score(score=0,name="Lenny"), Score(score=0, name="Victor")])
-
+    
     def __iter__(self):
         """Iterate on the list of scores."""
         return iter(self._scores)
@@ -136,25 +132,25 @@ class Score :
 def button_pressed(state, hero, greed):
     global weapons
     if keyboard.is_pressed("up"):
-        if greed(hero.position[0],hero.position[1]-1) == ' ' or greed(hero.position[0],hero.position[1]-1) == '|' or greed(hero.position[0],hero.position[1]-1) == '-':
+        if greed[hero.position[0]][hero.position[1]-1] == ' ' or greed[hero.position[0]][hero.position[1]-1] == '|' or greed[hero.position[0]][hero.position[1]-1] == '-':
             pass
         else :
             hero.position[1] -= 1
             
     if keyboard.is_pressed("down"):
-        if greed(hero.position[0],hero.position[1]+1) == ' ' or greed(hero.position[0],hero.position[1]+1) == '|' or greed(hero.position[0],hero.position[1]+1) == '-':
+        if greed[hero.position[0]][hero.position[1]+1] == ' ' or greed[hero.position[0]][hero.position[1]+1] == '|' or greed[hero.position[0]][hero.position[1]+1] == '-':
             pass
         else :
             hero.position[1] += 1
     
     if keyboard.is_pressed("left"):
-        if greed(hero.position[0]-1,hero.position[1]) == ' ' or greed(hero.position[0]-1,hero.position[1]) == '|' or greed(hero.position[0]-1,hero.position[1]) == '-':
+        if greed[hero.position[0]-1][hero.position[1]] == ' ' or greed[hero.position[0]-1][hero.position[1]] == '|' or greed[hero.position[0]-1][hero.position[1]] == '-':
             pass
         else :
             hero.position[0] -= 1
 
     if keyboard.is_pressed("right"):
-        if greed(hero.position[0]+1,hero.position[1]) == ' ' or greed(hero.position[0]+1,hero.position[1]) == '|' or greed(hero.position[0]+1,hero.position[1]) == '-':
+        if greed[hero.position[0]+1][hero.position[1]] == ' ' or greed[hero.position[0]+1][hero.position[1]] == '|' or greed[hero.position[0]+1][hero.position[1]] == '-':
             pass
         else :
             hero.position[0] += 1
@@ -210,10 +206,10 @@ def insert_name(state, name):
         name = name[:-1]
 
     if keyboard.is_pressed('space'):
-        state = 'PLAY'  
+        state = State.PLAY 
 
     if keyboard.is_pressed('enter'):
-        state = 'HIGHSCORES'  
+        state = State.HIGHSCORES  
 
 
 def leaving_hs(state):
@@ -224,11 +220,11 @@ def leaving_hs(state):
 
 def encounter(hero, dico):
    
-    if hero.position in dico['food']:
+    '''if hero.position in dico['food']:
         hero.food += 1
         hero.score += 2
         dico['food'].remove(hero.position)
-        print("You've found some food! You can use it by pressing 'e'.")
+        print("You've found some food! You can use it by pressing 'e'.")'''
     
     if hero.position in dico['weapons']:
         hero.weapon = "sword"
@@ -273,20 +269,22 @@ def encounter(hero, dico):
     
     if hero.position == [i_monster_out,j_monster_out]:
         hero.position = [i_monster,j_monster]'''
-       
+
 def rogue():
     stay=True
-    state=State.MENU
-    scores=Scores().loading_hs("snake_scores.yml")
+    state=State.PLAY
+    scores=Scores()
     while stay:
 
         if state==State.MENU:
             s=Score(0,"")
             while state==State.MENU:
-                print(f"insert your name:{s.name}\n",
-                      "press space to start the game \n",
-                      "press enter to see highscores\n")
-                insert_name(state, s.name)
+                if keyboard.read_event():
+                    insert_name(state, s.name)
+                    print(f"insert your name:{s.name}\n",
+                          "press space to start the game \n",
+                          "press enter to see highscores\n",
+                            state, s)
 
         if state==State.PLAY:
             """save score ?"""
@@ -307,9 +305,8 @@ class Object:
         print(self.symbole)
 
 
-class Hero(object):
+class Hero():
     def __init__(self):
-        super().__init__("@")
         self.position=np.array([0,0])
         self.score = 0
         self.health = 10
@@ -409,8 +406,12 @@ def Game(state):
     print(gameboard)
     while state == State.PLAY :
         if keyboard.read_event():
-            button_pressed(state, hero)
-            encounter(hero)
+            button_pressed(state, hero, gameboard)
+            encounter(hero, dico)
             print(gameboard)
-    
-    
+            
+
+
+rogue()
+
+
