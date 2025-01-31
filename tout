@@ -181,12 +181,11 @@ def button_pressed(state, hero, greed):
 
     
     if keyboard.is_pressed("i"):
-        print(f"Your health is {hero.health}.")
         print(f"You have {hero.food} food.")
-        print(f"Your current weapon is {hero.weapon}.")
-        print(f'Your weapons are {weapons}.')
-        print(f"Your potion is {hero.potion}.")
-        print(f"Your gold is {hero.gold}.")
+        print(f"You have {hero.potion} potion.")
+        print(f"You have {hero.gold} gold.")
+        print(f"Your weapon is {hero.weapon}.")
+        print(f"Your health is {hero.health}.")
     
     
     
@@ -223,43 +222,39 @@ def leaving_hs(state):
 
 
 
-def encounter(hero):
+def encounter(hero, dico):
    
-    global food_location, weapon_location, shield_location, potion_location, gold_location
-   
-    if hero.position in food_location:
+    if hero.position in dico['food']:
         hero.food += 1
         hero.score += 2
-        food_location.remove(hero.position)
+        dico['food'].remove(hero.position)
         print("You've found some food! You can use it by pressing 'e'.")
     
-    if hero.position in weapon_location:
-        weapons.append("sword")
-        if hero.weapon == None:
-            hero.weapon = "sword"
+    if hero.position in dico['weapons']:
+        hero.weapon = "sword"
         hero.score += 5
-        weapon_location.remove(hero.position)
+        dico['weapons'].remove(hero.position)
         print("You've found a sword! You can now attack monsters.")
     
-    if hero.position in shield_location:
+    if hero.position in dico['shield']:
         hero.shield = "wooden shield"
         hero.health += 10
         hero.score += 5
-        shield_location.remove(hero.position)
+        dico['shield'].remove(hero.position)
         print("You've found a wooden shield! You can now protect yourself from monsters.")
     
     
-    if hero.position in potion_location:
+    if hero.position in dico['potion']:
         hero.potion += 1
-        potion_location.remove(hero.position)
+        dico['potion'].remove(hero.position)
         hero.score += 5
         print("You've found a potion! You can now heal yourself.")    
    
-    if hero.position in gold_location:
+    if hero.position in dico['gold_nuggets']:
         gold = np.random.randint(20,50)
         hero.gold += gold
         hero.score += gold
-        gold_location.remove(hero.position)
+        dico['gold_nuggets'].remove(hero.position)
         print(f"You've found {gold} gold!")
 
 
@@ -370,10 +365,10 @@ def generate_map(width, height):
 
 
     dico = {}
-    dico['coin']=[]
-    dico['arme']=[]
+    dico['gold_nuggets']=[]
+    dico['weapons']=[]
     dico['potion']=[]
-    dico['bouclier']=[]
+    dico['shield']=[]
     for i in range(width):
         for j in range(height):
             if grid[i][j] == '.':
@@ -382,18 +377,18 @@ def generate_map(width, height):
                     p = rd.random()
                     if p < 0.5:
                         grid[i][j] = 'c'
-                        dico['coin'].append([i,j])
+                        dico['gold_nuggets'].append([i,j])
                     elif 0.5 < p < 0.75 :
                         grid[i][j] = 'p'
                         dico['potion'].append([i,j])
                     elif 0.75 < p < 0.9 :
                         grid[i][j] = 'a'
-                        dico['arme'].append([i,j])
+                        dico['weapons'].append([i,j])
                     else : 
                         grid[i][j] = 'b'
-                        dico['bouclier'].append([i,j])
+                        dico['shield'].append([i,j])
 
-    return grid, nbrsalle, Lx
+    return grid, nbrsalle, Lx, dico
 
 
 
