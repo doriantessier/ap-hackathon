@@ -27,19 +27,30 @@ def button_pressed(hero):
 
 
 def encounter(hero):
-    if hero.position == [i_fruit,j_fruit]:
-        hero.health += 1
-        print("You've eaten a fruit! You gained 1 health point.")
-    if hero.position == [i_weapon,j_weapon]:
+    if hero.position in fruit_location:
+        hero.food += 1
+        fruit_location.remove(hero.position)
+        print("You've found some food! You can use it by pressing 'e'.")
+    if hero.position in weapon_location:
         hero.weapon = "sword"
+        weapon_location.remove(hero.position)
         print("You've found a sword! You can now attack monsters.")
-    if hero.position == [i_shield,j_shield]:
+    if hero.position in shield_location:
         hero.shield = "wooden shield"
+        hero.health += 10
+        shield_location.remove(hero.position)
         print("You've found a wooden shield! You can now protect yourself from monsters.")
-    if hero.position == [i_potion,j_potion]:
+    if hero.position in potion_location:
         hero.potion += 1
+        potion_location.remove(hero.position)
         print("You've found a potion! You can now heal yourself.")    
-    
+    if hero.position in gold_location:
+        gold = np.random.randint(20,50)
+        hero.gold += gold
+        gold_location.remove(hero.position)
+        print(f"You've found {gold} gold!")
+
+
     if hero.health == 0:
         print("You died! Game over.")
        
