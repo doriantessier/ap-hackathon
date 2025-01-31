@@ -132,7 +132,8 @@ class Score :
         """Representation."""
         return f"Score(name={self._name}, score={self._score})"
 
-def button_pressed(state, hero):
+def button_pressed(state, hero, greed):
+    global weapons
     if pyxel.btnp(pyxel.KEY_UP):
         if greed(hero.position[0],hero.position[1]-1) == ' ' or greed(hero.position[0],hero.position[1]-1) == '|' or greed(hero.position[0],hero.position[1]-1) == '-':
             pass
@@ -218,7 +219,9 @@ def leaving_hs(state):
 
 
 def encounter(hero):
-    
+   
+    global food_location, weapon_location, shield_location, potion_location, gold_location
+   
     if hero.position in food_location:
         hero.food += 1
         hero.score += 2
@@ -258,7 +261,7 @@ def encounter(hero):
     if hero.health == 0:
         print("You died! Game over.")
        
-    
+    '''
     if hero.position == [i_monster,j_monster] and hero.weapon == "sword":
         print("You've killed the monster!")
         hero.position = [i_monster_out,j_monster_out]
@@ -269,7 +272,7 @@ def encounter(hero):
         hero.health -= 1
     
     if hero.position == [i_monster_out,j_monster_out]:
-        hero.position = [i_monster,j_monster]
+        hero.position = [i_monster,j_monster]'''
        
 def rogue():
     stay=True
@@ -278,7 +281,7 @@ def rogue():
     while stay:
 
         if state==State.MENU:
-            s=score(0,"")
+            s=Score(0,"")
             while state==State.MENU:
                 print(f"insert your name:{s.name}\n",
                       "press space to start the game \n",
@@ -405,7 +408,7 @@ def Game(state):
     hero = Hero()
     
 
-    gameboard = generate_map(widht, height)
+    gameboard = generate_map(width, height)
     print(gameboard)
     while state == State.PLAY :
         if pyxel.btnp(pyxel.KEY_ANY):
