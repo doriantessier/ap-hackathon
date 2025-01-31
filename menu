@@ -1,0 +1,148 @@
+import enum
+
+class State(enum.Enum):
+    MENU= 1
+    PLAY=2
+    HIGHSCORES=3
+
+import typing
+import yaml
+import schema
+
+
+from pathlib import Path
+
+
+SCORE_FILE_SCHEMA = schema.Schema([
+    {"name":str,
+     "score":int}
+])
+
+class Scores :
+    """Contains instances of scores."""
+
+    def __init__(self, max_scores : int, scores : list[Score]) -> None :
+        """Define the scores."""
+        self._max_scores=5
+        self._scores=sorted(scores, reverse = True)[:5]
+
+    @classmethod
+    def default(cls, max_scores : int ) -> "Scores" :
+        """Classmethod."""
+        return cls(max_scores, [Score (score=0, name="Dodo"), Score(score=0, name="Arthur"), Score(score=0,name="Lenny"), Score(score=0, name="Victor")])
+
+    def __iter__(self) -> typing.Iterator[Score]:
+        """Iterate on the list of scores."""
+        return iter(self._scores)
+
+
+    def is_highscore(self, score_player : int) -> bool :
+        """Define the case highscore."""
+        return len(self._scores)<self._max_scores or self._scores[-1].score < score_player
+
+    def add_score(self, score_player: Score) -> None:
+        """Add a score and sort the list."""
+        if self.is_highscore(score_player.score):
+            if len(self._scores)>=self._max_scores :
+                self._scores.pop()
+            self._scores.append(score_player)
+            self._scores.sort(reverse=True)
+
+    def saving_hs(self,hs_file:Path)->None:
+        """Saves high score in the file."""
+        high_scores=[{"name":s.name,"score":s.score} for s in self]
+        with hs_file.open("w") as fd:
+            yaml.safe_dump(high_scores,fd)
+    
+    @property 
+    def print():
+        for s in self._scores:
+            print(f"name:{s.name}, score{:s.score}")
+
+
+    def loading_hs(self,scores_file:Path) -> None:
+        """Loads high scores from the file."""
+        with open(scores_file, "r") as f:
+            hs = yaml.load(f, Loader=yaml.Loader)
+        SCORE_FILE_SCHEMA.validate(hs)
+        self._scores=[]
+        for sc in hs:
+            self._scores.append(Score(sc["score"],sc["name"]))
+        self._scores=sorted(self._scores, reverse = True)[:self._max_scores]
+
+
+class Score :
+
+    MAX_LENGTH = 8
+
+    def __init__(self, score : int, name : str) -> None:
+        """Initialize."""
+        self._score=score
+        self.name=name #use the property 
+
+    @property
+    def name(self) -> str :
+        """Return the name."""
+        return self._name
+
+    @name.setter
+    def name(self, n : str) -> None :
+        """Modify the name."""
+        self._name=n[:self.MAX_LENGTH]
+
+
+
+    @property 
+    def score(self) -> int :
+        """Return the score."""
+        return self._score
+
+    
+    # Implemente the comparaison operators to use the function sort in the lists
+    def __gt__(self, other : object) -> bool :
+        """Define the comparaison operator."""
+        return isinstance(other, Score) and self._score > other._score
+
+    def __lt__(self, other : object) -> bool :
+        """Define the comparaison operator."""
+        return isinstance(other, Score) and self._score < other._score
+
+    def __eq__(self, other : object) -> bool :
+        """Define the comparaison operator."""
+        return isinstance(other, Score) and self._score == other._score
+
+    def __ge__(self, other : object) -> bool :
+        """Define the comparaison operator."""
+        return isinstance(other, Score) and self._score >= other._score
+
+    def __le__(self, other : object) -> bool :
+        """Define the comparaison operator."""
+        return isinstance(other, Score) and self._score <= other._score
+
+    def __ne__(self, other : object) -> bool :
+        """Define the comparaison operator."""
+        return isinstance(other, Score) and self._score != other._score
+
+    def __repr__(self) -> str:
+        """Representation."""
+        return f"Score(name={self._name}, score={self._score})"
+
+def rogue():
+    stay=True
+    state=State.MENU
+    scores=Scores().loading_hs("snake_scores.yml")
+    while stay:
+        button_pressed(state)
+        if state==State.MENU:
+            s=score(0,"")
+            print(f"insert your name:{s.name}")
+
+        if state==State.PLAY:
+            """save score ?"""
+            state=State.MENU
+            s.score=game()
+            scores.add_score(s)
+            scores.saving_hs("snake_scores.yml")
+        
+        if state==State.HIGHSCORES:
+            scores.print()

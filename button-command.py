@@ -72,10 +72,10 @@ def button_pressed(hero):
 
 def encounter(hero):
     
-    if hero.position in fruit_location:
+    if hero.position in food_location:
         hero.food += 1
         hero.score += 2
-        fruit_location.remove(hero.position)
+        food_location.remove(hero.position)
         print("You've found some food! You can use it by pressing 'e'.")
     
     if hero.position in weapon_location:
@@ -123,5 +123,4 @@ def encounter(hero):
     
     if hero.position == [i_monster_out,j_monster_out]:
         hero.position = [i_monster,j_monster]
-    
-   
+       
