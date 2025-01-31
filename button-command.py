@@ -11,17 +11,46 @@ def button_pressed(hero):
     if pyxel.btnp(pyxel.KEY_RIGHT):
         hero.position[0] += 1
     
+
+    w = 0
     if pyxel.btnp(pyxel.KEY_W):
-        pass  #open bag to use a new weapon
-    if pyxel.btnp(pyxel.KEY_E): 
-        pass  #open bag to eat
-    if pyxel.btnp(pyxel.KEY_D):
-        pass  #open bag to drop an item
-    if pyxel.btnp(pyxel.KEY_I):
-        pass  #open bag to see inventory
-    if pyxel.btnp(pyxel.KEY_P):
-        pass  #open bag to use a potion
+        if len(weapons) > 1:
+            w += 1
+            hero.weapon = weapons[w%len(weapons)]
+            print(f"You've selected {hero.weapon} as your weapon.")
+        else:
+            print("You don't have enough weapon.")
     
+    
+    if pyxel.btnp(pyxel.KEY_E): 
+        if hero.food > 0:
+            hero.food -= 1
+            hero.health += 1
+            print("You've eaten some food! You've gained 1 health point.")
+        else:
+            print("You don't have enough food.")
+
+
+    
+    if pyxel.btnp(pyxel.KEY_I):
+        print(f"Your health is {hero.health}.")
+        print(f"You have {hero.food} food.")
+        print(f"Your current weapon is {hero.weapon}.")
+        print(f'Your weapons are {weapons}.')
+        print(f"Your potion is {hero.potion}.")
+        print(f"Your gold is {hero.gold}.")
+    
+    
+    
+    if pyxel.btnp(pyxel.KEY_P):
+        if hero.potion > 0:
+            hero.potion -= 1
+            hero.health += 5
+            print("You've used a potion! You've gained 10 health points.")
+        else:
+            print("You don't have enough potion.")
+    
+
     if pyxel.btnp(pyxel.KEY_Q):
         pass #quit the game
 
@@ -32,7 +61,9 @@ def encounter(hero):
         fruit_location.remove(hero.position)
         print("You've found some food! You can use it by pressing 'e'.")
     if hero.position in weapon_location:
-        hero.weapon = "sword"
+        weapons.append("sword")
+        if hero.weapon == None:
+            hero.weapon = "sword"
         weapon_location.remove(hero.position)
         print("You've found a sword! You can now attack monsters.")
     if hero.position in shield_location:
