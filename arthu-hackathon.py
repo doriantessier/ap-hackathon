@@ -17,29 +17,37 @@ def generate_map(width, height):
     # Dessiner deux salles
     xsalle = 1
     nbrsalle = rd.randint(4,9)
+    print(nbrsalle)
+    L=[]
     for i in range(nbrsalle):
                 
                    hauteur = rd.randint(6,12)
                    largeur = rd.randint(4,9)
-                   xsalle += rd.randint(2,5) + largeur + 2
-                   draw_room(xsalle, 2, largeur, hauteur)
+                   xsalle += largeur + 3 + rd.randint(3,6)
+                   Lx.append(xsalle)
+                   draw_room(xsalle, 1, largeur, hauteur)
 
     
     
     # Créer un passage entre les salles
-    #for i in range(10, 12):
-     #   grid[5][i] = '#'
+    #for i in range(len(L)-1):
+    #    for j in range(L[i+1][1]-L[i][1]):
+    #         grid[5][L[i][1]+ L[i][2] + j] = '#'
+
+    for i in range(L[0], L[-1]):
+        if grid[5][i] == ' ':
+            grid[5][i] = '#'
     
-    return grid, nbrsalle
+    return grid, nbrsalle, L
 
 def print_map(grid):
     for row in grid:
         print("".join(row))
 
 if __name__ == "__main__":
-    width, height = 110, 20  # Taille de la carte
-    dungeon_map , nbrsalle= generate_map(width, height)
+    width, height = 140, 20  # Taille de la carte
+    dungeon_map , nbrsalle, L= generate_map(width, height)
     print_map(dungeon_map)
-    print(nbrsalle)
+    print(nbrsalle, L)
 
 
