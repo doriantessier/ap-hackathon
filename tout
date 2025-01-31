@@ -5,6 +5,7 @@ import enum
 import typing
 import yaml
 import schema
+import keyboard
 
 
 from pathlib import Path
@@ -134,25 +135,25 @@ class Score :
 
 def button_pressed(state, hero, greed):
     global weapons
-    if pyxel.btnp(pyxel.KEY_UP):
+    if keyboard.is_pressed("up"):
         if greed(hero.position[0],hero.position[1]-1) == ' ' or greed(hero.position[0],hero.position[1]-1) == '|' or greed(hero.position[0],hero.position[1]-1) == '-':
             pass
         else :
             hero.position[1] -= 1
             
-    if pyxel.btnp(pyxel.KEY_DOWN):
+    if keyboard.is_pressed("down"):
         if greed(hero.position[0],hero.position[1]+1) == ' ' or greed(hero.position[0],hero.position[1]+1) == '|' or greed(hero.position[0],hero.position[1]+1) == '-':
             pass
         else :
             hero.position[1] += 1
     
-    if pyxel.btnp(pyxel.KEY_LEFT):
+    if keyboard.is_pressed("left"):
         if greed(hero.position[0]-1,hero.position[1]) == ' ' or greed(hero.position[0]-1,hero.position[1]) == '|' or greed(hero.position[0]-1,hero.position[1]) == '-':
             pass
         else :
             hero.position[0] -= 1
 
-    if pyxel.btnp(pyxel.KEY_RIGHT):
+    if keyboard.is_pressed("right"):
         if greed(hero.position[0]+1,hero.position[1]) == ' ' or greed(hero.position[0]+1,hero.position[1]) == '|' or greed(hero.position[0]+1,hero.position[1]) == '-':
             pass
         else :
@@ -160,7 +161,7 @@ def button_pressed(state, hero, greed):
     
 
     w = 0
-    if pyxel.btnp(pyxel.KEY_W):
+    if keyboard.is_pressed("w"):
         if len(weapons) > 1:
             w += 1
             hero.weapon = weapons[w%len(weapons)]
@@ -169,7 +170,7 @@ def button_pressed(state, hero, greed):
             print("You don't have enough weapon.")
     
     
-    if pyxel.btnp(pyxel.KEY_E): 
+    if keyboard.is_pressed("e"):
         if hero.food > 0:
             hero.food -= 1
             hero.health += 1
@@ -179,7 +180,7 @@ def button_pressed(state, hero, greed):
 
 
     
-    if pyxel.btnp(pyxel.KEY_I):
+    if keyboard.is_pressed("i"):
         print(f"Your health is {hero.health}.")
         print(f"You have {hero.food} food.")
         print(f"Your current weapon is {hero.weapon}.")
@@ -189,7 +190,7 @@ def button_pressed(state, hero, greed):
     
     
     
-    if pyxel.btnp(pyxel.KEY_P):
+    if keyboard.is_pressed("p"):
         if hero.potion > 0:
             hero.potion -= 1
             hero.health += 5
@@ -197,23 +198,27 @@ def button_pressed(state, hero, greed):
         else:
             print("You don't have enough potion.")
 
-    if pyxel.btnp(pyxel.KEY_Q):
+    if keyboard.is_pressed("q"):
         state=State.MENU
 
 def insert_name(state, name):
-        for key in range(pyxel.KEY_A, pyxel.KEY_Z + 1):
-            if pyxel.btnp(key):
-                name += chr(key)
-        if pyxel.btnp(pyxel.KEY_DELETE):
-            name=name[:-1]
-        if pyxel.btnp(pyxel.KEY_SPACE):
-            state=State.PLAY
-        if pyxel.btnp(pyxel.KEY_ENTER):
-            state=State.HIGHSCORES
+
+    for key in range(ord('A'), ord('Z') + 1):
+        if keyboard.is_pressed(chr(key)):  
+            name += chr(key)  
+
+    if keyboard.is_pressed('delete'):
+        name = name[:-1]
+
+    if keyboard.is_pressed('space'):
+        state = 'PLAY'  
+
+    if keyboard.is_pressed('enter'):
+        state = 'HIGHSCORES'  
 
 
 def leaving_hs(state):
-        if pyxel.btnp(pyxel.KEY_DELETE):
+        if keyboard.is_pressed("delete"):
             state=State.MENU
 
 
@@ -411,7 +416,7 @@ def Game(state):
     gameboard = generate_map(width, height)
     print(gameboard)
     while state == State.PLAY :
-        if pyxel.btnp(pyxel.KEY_ANY):
+        if keyboard.read_event():
             button_pressed(state, hero)
             encounter(hero)
             print(gameboard)
