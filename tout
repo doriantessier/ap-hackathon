@@ -24,7 +24,7 @@ SCORE_FILE_SCHEMA = schema.Schema([
 class Scores :
     """Contains instances of scores."""
 
-    def __init__(self, max_scores : int, scores : list[Score]) -> None :
+    def __init__(self, max_scores , scores ) :
         """Define the scores."""
         self._max_scores=5
         self._scores=sorted(scores, reverse = True)[:5]
@@ -34,7 +34,7 @@ class Scores :
         """Classmethod."""
         return cls(max_scores, [Score (score=0, name="Dodo"), Score(score=0, name="Arthur"), Score(score=0,name="Lenny"), Score(score=0, name="Victor")])
 
-    def __iter__(self) -> typing.Iterator[Score]:
+    def __iter__(self):
         """Iterate on the list of scores."""
         return iter(self._scores)
 
@@ -43,7 +43,7 @@ class Scores :
         """Define the case highscore."""
         return len(self._scores)<self._max_scores or self._scores[-1].score < score_player
 
-    def add_score(self, score_player: Score) -> None:
+    def add_score(self, score_player) :
         """Add a score and sort the list."""
         if self.is_highscore(score_player.score):
             if len(self._scores)>=self._max_scores :
