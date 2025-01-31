@@ -1,0 +1,40 @@
+import numpy as np
+
+
+class object:
+    def __init__(self,s):
+        self.symbole=s
+
+    def print(self):
+        print(self.symbole)
+
+
+class hero(object):
+    def __init__(self):
+        super().__init__("@")
+        self.position=np.array([])
+        self.life=16
+        self.gold=0
+
+
+
+class graal(object):
+    def __init__(self):
+        super().__init__("G")
+        self.position=np.array([])
+
+
+class tile(object):
+    def __init__(self):
+        super().__init__(".")
+        self.position=np.array([])
+
+class coin(object):
+    def __init__(self):
+        super().__init__("O")
+        self.position=np.array([])
+
+class wall(object):
+    def __init__(self):
+        super().__init__("X")
+        self.position=np.array([])
