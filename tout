@@ -397,18 +397,18 @@ def print_map(grid):
     for y in range(len(grid[0])):
         print("".join(grid[x][y] for x in range(len(grid))))
 
-if __name__ == "__main__":
-    width, height = 140, 20  # Taille de la carte
-    dungeon_map, nbrsalle, Lx = generate_map(width, height)
-    print_map(dungeon_map)
-    print(nbrsalle, Lx)
+
+
+width, height = 140, 20  # Taille de la carte
+
+
 
 def Game(state):
     
     hero = Hero()
     
 
-    gameboard = generate_map(width, height)
+    gameboard, nbrsalle, Lx, dico = generate_map(width, height)
     print(gameboard)
     while state == State.PLAY :
         if keyboard.read_event():
