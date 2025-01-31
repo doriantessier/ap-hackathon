@@ -73,6 +73,8 @@ class Scores :
 
 class Score :
 
+
+
     MAX_LENGTH = 8
 
     def __init__(self, score : int, name : str) -> None:
@@ -127,22 +129,28 @@ class Score :
         """Representation."""
         return f"Score(name={self._name}, score={self._score})"
 
+
 def rogue():
     stay=True
     state=State.MENU
     scores=Scores().loading_hs("snake_scores.yml")
     while stay:
-        button_pressed(state)
+
         if state==State.MENU:
             s=score(0,"")
-            print(f"insert your name:{s.name}")
+            while state==State.MENU:
+                print(f"insert your name:{s.name}\n",
+                      "press space to start the game \n",
+                      "press enter to see highscores\n")
+                insert_name(state, s.name)
 
         if state==State.PLAY:
             """save score ?"""
-            state=State.MENU
-            s.score=game()
+            s.score=Game(state)
             scores.add_score(s)
             scores.saving_hs("snake_scores.yml")
         
         if state==State.HIGHSCORES:
             scores.print()
+            while state==State.HIGHSCORES:
+                leaving_hs(state)
