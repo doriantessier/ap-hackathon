@@ -3,13 +3,28 @@ import numpy as np
 
 def button_pressed(hero):
     if pyxel.btnp(pyxel.KEY_UP):
-        hero.position[1] -= 1
+        if greed(hero.position[0],hero.position[1]-1) == ' ' or greed(hero.position[0],hero.position[1]-1) == '|' or greed(hero.position[0],hero.position[1]-1) == '-':
+            pass
+        else :
+            hero.position[1] -= 1
+            
     if pyxel.btnp(pyxel.KEY_DOWN):
-        hero.position[1] += 1
+        if greed(hero.position[0],hero.position[1]+1) == ' ' or greed(hero.position[0],hero.position[1]+1) == '|' or greed(hero.position[0],hero.position[1]+1) == '-':
+            pass
+        else :
+            hero.position[1] += 1
+    
     if pyxel.btnp(pyxel.KEY_LEFT):
-        hero.position[0] -= 1
+        if greed(hero.position[0]-1,hero.position[1]) == ' ' or greed(hero.position[0]-1,hero.position[1]) == '|' or greed(hero.position[0]-1,hero.position[1]) == '-':
+            pass
+        else :
+            hero.position[0] -= 1
+
     if pyxel.btnp(pyxel.KEY_RIGHT):
-        hero.position[0] += 1
+        if greed(hero.position[0]+1,hero.position[1]) == ' ' or greed(hero.position[0]+1,hero.position[1]) == '|' or greed(hero.position[0]+1,hero.position[1]) == '-':
+            pass
+        else :
+            hero.position[0] += 1
     
 
     w = 0
