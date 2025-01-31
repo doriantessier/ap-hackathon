@@ -58,7 +58,7 @@ class Scores :
             yaml.safe_dump(high_scores,fd)
     
     @property 
-    def print():
+    def print(self):
         for s in self._scores:
             print(f"name:{s.name}, score{s.score}")
 
