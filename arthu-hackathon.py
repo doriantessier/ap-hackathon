@@ -62,5 +62,6 @@ if __name__ == "__main__":
     dungeon_map , nbrsalle, Lx= generate_map(width, height)
     print_map(dungeon_map)
     print(nbrsalle, Lx)
+print(rd.random())
 
 

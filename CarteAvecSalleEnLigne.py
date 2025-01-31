@@ -31,6 +31,7 @@ def generate_map(width, height):
         Llg.append(largeur)
         Lh.append(hauteur)
         draw_room(xsalle, 1, largeur, hauteur)
+
     
     # Créer un passage entre les salles
     for j in range(nbrsalle - 1):
@@ -42,8 +43,36 @@ def generate_map(width, height):
             if j != nbrsalle - 1:
                 grid[Lx[j] + Llg[j] - 1][h] = '='
                 grid[Lx[j + 1]][h] = '='
-    
+
+
+    dico = {}
+    dico['coin']=[]
+    dico['arme']=[]
+    dico['potion']=[]
+    dico['bouclier']=[]
+    for i in range(width):
+        for j in range(height):
+            if grid[i][j] == '.':
+                prob = rd.random()
+                if prob < 0.10 :
+                    p = rd.random()
+                    if p < 0.5:
+                        grid[i][j] = 'c'
+                        dico['coin'].append([i,j])
+                    elif 0.5 < p < 0.75 :
+                        grid[i][j] = 'p'
+                        dico['potion'].append([i,j])
+                    elif 0.75 < p < 0.9 :
+                        grid[i][j] = 'a'
+                        dico['arme'].append([i,j])
+                    else : 
+                        grid[i][j] = 'b'
+                        dico['bouclier'].append([i,j])
+
     return grid, nbrsalle, Lx
+
+
+
 
 def print_map(grid):
     for y in range(len(grid[0])):
