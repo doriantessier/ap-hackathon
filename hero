@@ -16,25 +16,3 @@ class Hero(object):
         self.life=16
         self.gold=0
 
-
-
-class Graal(object):
-    def __init__(self):
-        super().__init__("G")
-        self.position=np.array([0,0])
-
-
-class Tile(object):
-    def __init__(self):
-        super().__init__(".")
-        self.position=np.array([0,0])
-
-class Coin(object):
-    def __init__(self):
-        super().__init__("O")
-        self.position=np.array([0,0])
-
-class Wall(object):
-    def __init__(self):
-        super().__init__("X")
-        self.position=np.array([0,0])
