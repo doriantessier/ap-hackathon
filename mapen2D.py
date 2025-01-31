@@ -87,7 +87,7 @@ def liaison(Lx, Ly, hauteurY, longueurX,grid):
             y_j = LY[i+1]
             chemin(grid,x_i,x_j,y_i,y_j)
         else : 
-            x_i = LX[i] + 
+            x_i = LX[i]
             y_i = LY[i] + rd.randint(1,3)
             x_j = LX[i+1] + rd.randint(1,3)
             y_j = LY[i+1]
