@@ -12,7 +12,7 @@ class object:
 class hero(object):
     def __init__(self):
         super().__init__("@")
-        self.position=np.array([])
+        self.position=np.array([0,0])
         self.life=16
         self.gold=0
 
@@ -21,20 +21,20 @@ class hero(object):
 class graal(object):
     def __init__(self):
         super().__init__("G")
-        self.position=np.array([])
+        self.position=np.array([0,0])
 
 
 class tile(object):
     def __init__(self):
         super().__init__(".")
-        self.position=np.array([])
+        self.position=np.array([0,0])
 
 class coin(object):
     def __init__(self):
         super().__init__("O")
-        self.position=np.array([])
+        self.position=np.array([0,0])
 
 class wall(object):
     def __init__(self):
         super().__init__("X")
-        self.position=np.array([])
+        self.position=np.array([0,0])
