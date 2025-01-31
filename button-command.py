@@ -1,7 +1,7 @@
 import pyxel
 import numpy as np
 
-def button_pressed(hero):
+def button_pressed(state, hero):
     if pyxel.btnp(pyxel.KEY_UP):
         if greed(hero.position[0],hero.position[1]-1) == ' ' or greed(hero.position[0],hero.position[1]-1) == '|' or greed(hero.position[0],hero.position[1]-1) == '-':
             pass
