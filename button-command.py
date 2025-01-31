@@ -1,7 +1,7 @@
 import pyxel
 import numpy as np
 
-def button_pressed(hero):
+def button_pressed(state, hero):
     if pyxel.btnp(pyxel.KEY_UP):
         if greed(hero.position[0],hero.position[1]-1) == ' ' or greed(hero.position[0],hero.position[1]-1) == '|' or greed(hero.position[0],hero.position[1]-1) == '-':
             pass
@@ -64,10 +64,26 @@ def button_pressed(hero):
             print("You've used a potion! You've gained 10 health points.")
         else:
             print("You don't have enough potion.")
-    
 
     if pyxel.btnp(pyxel.KEY_Q):
-        pass #quit the game
+        state=State.MENU
+
+def insert_name(state, name):
+        for key in range(pyxel.KEY_A, pyxel.KEY_Z + 1):
+            if pyxel.btnp(key):
+                name += chr(key)
+        if pyxel.btnp(pyxel.KEY_DELETE):
+            name=name[:-1]
+        if pyxel.btnp(pyxel.KEY_SPACE):
+            state=State.PLAY
+        if pyxel.btnp(pyxel.KEY_ENTER):
+            state=State.HIGHSCORES
+
+
+def leaving_hs(state):
+        if pyxel.btnp(pyxel.KEY_DELETE):
+            state=State.MENU
+
 
 
 def encounter(hero):
