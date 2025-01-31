@@ -404,10 +404,7 @@ width, height = 140, 20  # Taille de la carte
 
 
 def Game(state):
-    
     hero = Hero()
-    
-
     gameboard, nbrsalle, Lx, dico = generate_map(width, height)
     print(gameboard)
     while state == State.PLAY :
