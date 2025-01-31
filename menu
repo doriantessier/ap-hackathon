@@ -136,6 +136,7 @@ def rogue():
         if state==State.MENU:
             s=score(0,"")
             print(f"insert your name:{s.name}")
+        
 
         if state==State.PLAY:
             """save score ?"""
