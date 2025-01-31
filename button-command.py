@@ -91,7 +91,7 @@ def encounter(hero):
         hero.health += 10
         hero.score += 5
         shield_location.remove(hero.position)
-        print("You've found a wooden shield! You can now protect yourself from monsters.")
+        print("You've found a wooden shield! You gain 10 health point.")
     
     
     if hero.position in potion_location:
