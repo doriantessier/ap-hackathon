@@ -19,8 +19,11 @@ def button_pressed(hero):
         pass  #open bag to drop an item
     if pyxel.btnp(pyxel.KEY_I):
         pass  #open bag to see inventory
-    if pyxel.btnp(pyxel.KEY_T):
-        pass  #open bag to throw an item
+    if pyxel.btnp(pyxel.KEY_P):
+        pass  #open bag to use a potion
+    
+    if pyxel.btnp(pyxel.KEY_Q):
+        pass #quit the game
 
 
 def encounter(hero):
