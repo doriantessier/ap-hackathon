@@ -24,9 +24,6 @@ def button_pressed(hero):
 
 
 def encounter(hero):
-    '''if hero.position == [i_monster,j_monster]:
-        hero.health -= 1
-        print("You've been attacked by a monster! You lost 1 health point.")'''
     if hero.position == [i_fruit,j_fruit]:
         hero.health += 1
         print("You've eaten a fruit! You gained 1 health point.")
